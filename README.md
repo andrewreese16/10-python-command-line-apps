@@ -20,8 +20,7 @@
 7. **password-manager.py**
 - Users can add thier passwords that are encrypted and view the passwords when needed. Passwords can also be deleted when needed.
 8. **quiz.py**
-
- -Users can take the quiz that is based around Python.
+- Users can take the quiz that is based around Python.
 9. **rock-paper.py**
 - Users can play rock paper scissors against the computer.
 10. **todo.py**
