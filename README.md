@@ -6,7 +6,7 @@
 ```
 ## To run the apps on Mac
 ``` CLI 
-python3 app-file.py
+python3 file-name.py
 ```
 ## Apps
 1. **adventure-game.py**
