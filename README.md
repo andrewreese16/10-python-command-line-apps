@@ -4,6 +4,10 @@
 ``` CLI
  git clone https://github.com/andrewreese16/10-python-command-line-apps.git
 ```
+## To run the apps on Mac
+``` CLI 
+python3 app-file.py
+```
 ## Apps
 1. **adventure-game.py**
 - Users can select a direction to move and find items on the ground to pick up and use.
