@@ -2,6 +2,7 @@ from cryptography.fernet import Fernet
 import os
 import json
 
+
 def load_key():
     if not os.path.exists("secret.key"):
         key = Fernet.generate_key()
@@ -77,6 +78,7 @@ def menu():
             break
         else:
             print("Invalid option. Please try again.")
+
 
 if __name__ == "__main__":
     menu()

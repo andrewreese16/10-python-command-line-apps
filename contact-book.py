@@ -1,15 +1,16 @@
 import json
 import os
 
+
 def load_contacts():
-    if os.path.exists('contacts.json'):
-        with open('contacts.json', 'r') as file:
+    if os.path.exists("contacts.json"):
+        with open("contacts.json", "r") as file:
             return json.load(file)
     return {}
 
 
 def save_contacts(contacts):
-    with open('contacts.json', 'w') as file:
+    with open("contacts.json", "w") as file:
         json.dump(contacts, file)
 
 
@@ -62,29 +63,30 @@ def main():
         print("4. Search Contact")
         print("5. View All Contacts")
         print("6. Quit")
-        
+
         choice = input("Choose an option: ")
 
-        if choice == '1':
+        if choice == "1":
             add_contact(contacts)
-        elif choice == '2':
+        elif choice == "2":
             edit_contact(contacts)
-        elif choice == '3':
+        elif choice == "3":
             delete_contact(contacts)
-        elif choice == '4':
+        elif choice == "4":
             search_contact(contacts)
-        elif choice == '5':
+        elif choice == "5":
             if contacts:
                 for name, details in contacts.items():
                     print(f"Name: {name}, Phone: {details['phone']}")
             else:
                 print("No contacts found.")
-        elif choice == '6':
+        elif choice == "6":
             save_contacts(contacts)
             print("Goodbye!")
             break
         else:
             print("Invalid option. Please try again.")
+
 
 if __name__ == "__main__":
     main()
