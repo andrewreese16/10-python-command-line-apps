@@ -1,4 +1,4 @@
-import json
+import sqlite3
 
 
 class BankAccount:
@@ -27,26 +27,54 @@ class BankAccount:
         )
 
 
-def save_accounts(accounts, filename="accounts.json"):
-    with open(filename, "w") as file:
-        json_accounts = {acc.account_number: acc.__dict__ for acc in accounts.values()}
-        json.dump(json_accounts, file)
-    print("Accounts saved successfully.")
+def setup_database():
+    conn = sqlite3.connect("bank_accounts.db")
+    c = conn.cursor()
+    c.execute(
+        """CREATE TABLE IF NOT EXISTS accounts
+        (account_number TEXT PRIMARY KEY, name TEXT, balance REAL)"""
+    )
+    conn.commit()
+    conn.close()
 
 
-def load_accounts(filename="accounts.json"):
-    try:
-        with open(filename, "r") as file:
-            json_accounts = json.load(file)
-            accounts = {
-                acc_num: BankAccount(**data) for acc_num, data in json_accounts.items()
-            }
-            return accounts
-    except FileNotFoundError:
-        return {}
+def save_account(account):
+    conn = sqlite3.connect("bank_accounts.db")
+    c = conn.cursor()
+    c.execute(
+        "INSERT OR REPLACE INTO accounts (account_number, name, balance) VALUES (?, ?, ?)",
+        (account.account_number, account.name, account.balance),
+    )
+    conn.commit()
+    conn.close()
+
+
+def update_account(account):
+    conn = sqlite3.connect("bank_account.db")
+    c = conn.cursor()
+    c.execute(
+        "UPDATE accounts SET balance = ? WHERE account_number = ?",
+        (account.balance, account.account_number),
+    )
+    conn.commit()
+    conn.close()
+
+
+def load_accounts():
+    conn = sqlite3.connect("bank_accounts.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM accounts")
+    rows = c.fetchall()
+    accounts = {}
+    for row in rows:
+        account = BankAccount(name=row[1], account_number=row[0], balance=row[2])
+        accounts[account.account_number] = account
+    conn.close()
+    return accounts
 
 
 def main():
+    setup_database()
     accounts = load_accounts()
     while True:
         print("\n=== Welcome to the Banking System ===")
@@ -67,7 +95,8 @@ def main():
         elif choice == "4":
             withdraw_money(accounts)
         elif choice == "5":
-            save_accounts(accounts)
+            for account in accounts.values():
+                save_account(account)
             print("Have a good day!")
             break
         else:
@@ -84,6 +113,7 @@ def create_account(accounts):
 
     new_account = BankAccount(name, account_number)
     accounts[account_number] = new_account
+    save_account(new_account)
     print(f"Account created for {name} with account number {account_number}.")
 
 
